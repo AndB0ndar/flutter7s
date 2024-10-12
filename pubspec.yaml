@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  http:
   go_router: ^9.0.2
   path_provider:
 
