@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'column.dart';
-import 'listview.dart';
-import 'separated.dart';
+import 'task_list.dart';
+import 'filter.dart';
+import 'stats.dart';
+import 'settings.dart';
+
 
 void main() {
   runApp(const TaskApp());
@@ -10,6 +12,7 @@ void main() {
 
 class TaskApp extends StatelessWidget {
   const TaskApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,19 +29,11 @@ class TaskApp extends StatelessWidget {
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
   final String title;
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0;
-  final List<Widget> _screens = [
-    ColumnScreen(), ListViewScreen(), ListViewSeparatedScreen(),
-  ];
-  void _onTabTapped(int index) {
-    setState(() => _currentIndex = index);
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,27 +42,29 @@ class _HomePageState extends State<HomePage> {
         title: Text(widget.title),
       ),
       body: SafeArea(
-        child: _screens[_currentIndex],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: _onTabTapped,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.black,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'Column',
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ElevatedButton(
+                onPressed: () =>Navigator.push(context, MaterialPageRoute(builder: (context) => TaskListScreen())),
+                child: const Text('Go to Task List'),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => FilterTasksScreen())),
+                child: const Text('Go to Filter Tasks'),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => TaskStatsScreen())),
+                child: const Text('Go to Task Stats'),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => UserSettingsScreen())),
+                child: const Text('Go to User Settings'),
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.filter_list),
-            label: 'ListView',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.filter_list_alt),
-            label: 'ListView.separated',
-          ),
-        ],
+        ),
       ),
     );
   }

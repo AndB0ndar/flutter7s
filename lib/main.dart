@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 // import '5/2.dart';
 //import '5/app.dart';
 
-import '6/app.dart';
+//import '6/app.dart';
+import '6/app2.dart';
 
 void main() {
   runApp(TaskApp());
