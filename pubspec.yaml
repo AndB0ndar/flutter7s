@@ -30,8 +30,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  cached_network_image:
   http:
-  go_router: ^9.0.2
+  go_router:
   path_provider:
 
 
