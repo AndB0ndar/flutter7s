@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'InheritedWidget/inherited_widget.dart';
 import 'task_detail.dart';
 
 
@@ -7,24 +8,23 @@ class TaskListScreen extends StatefulWidget {
   const TaskListScreen({super.key});
 
   @override
-  State<TaskListScreen> createState() => _TodoScreenState();
+  State<TaskListScreen> createState() => _TaskListScreenState();
 }
 
-class _TodoScreenState extends State<TaskListScreen> {
-  List<String> _tasks = ['Задача 1', 'Задача 2', 'Задача 3'];
+class _TaskListScreenState extends State<TaskListScreen> {
   final TextEditingController _textController = TextEditingController();
 
   void _addTask() {
     if (_textController.text.isNotEmpty) {
-      setState(() {
-        _tasks.add(_textController.text);
-        _textController.clear();
-      });
+      TaskInheritedWidget.of(context)?.addTask(_textController.text);
+      _textController.clear();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final tasks = TaskInheritedWidget.of(context)?.tasks ?? [];
+
     return Scaffold(
       appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.inversePrimary),
       body: Column(
@@ -32,22 +32,21 @@ class _TodoScreenState extends State<TaskListScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(controller: _textController,
-              decoration: const InputDecoration(labelText: 'Add a task', border: OutlineInputBorder())
+              decoration: const InputDecoration(labelText: 'Add a task', border: OutlineInputBorder()),
             ),
           ),
           const SizedBox(height: 10),
-          ElevatedButton(onPressed: _addTask, child: Text('Добавить задачу')),
+          ElevatedButton(onPressed: _addTask, child: const Text('Добавить задачу')),
           Expanded(
             child: ListView.builder(
-              itemCount: _tasks.length,
+              itemCount: tasks.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(_tasks[index]),
-                  trailing: Icon(Icons.arrow_forward),
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => TaskDetailScreen(task: _tasks[index]))
-                  )
+                  title: Text(tasks[index]),
+                  trailing: const Icon(Icons.arrow_forward),
+                  onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => TaskDetailScreen(task: tasks[index])),
+                  ),
                 );
               },
             ),
