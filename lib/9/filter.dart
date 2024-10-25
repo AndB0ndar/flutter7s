@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:flutter7s/9/task_detail.dart';
 
-import '../3/task_detail.dart';
-import 'InheritedWidget/inherited_widget.dart';
+import 'Service/TaskService.dart';
+
 class FilterTasksScreen extends StatefulWidget {
   @override
   State<FilterTasksScreen> createState() => _FilterTasksScreenState();
 }
+
 class _FilterTasksScreenState extends State<FilterTasksScreen> {
   String _searchText = '';
   final TextEditingController _searchController = TextEditingController();
+  final TaskService _taskService = GetIt.I<TaskService>();
+
   @override
   Widget build(BuildContext context) {
-    final tasks = TaskInheritedWidget.of(context)?.tasks ?? [];
-    final filteredTasks = tasks
-        .where((task) => task.toLowerCase().contains(_searchText.toLowerCase()))
-        .toList();
+    final filteredTasks = _taskService.filterTasks(_searchText);
+
     return Scaffold(
       appBar: AppBar(title: const Text("Фильтрация задач")),
       body: Column(
@@ -23,7 +26,7 @@ class _FilterTasksScreenState extends State<FilterTasksScreen> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               controller: _searchController,
-              onChanged: (text) => setState(() => _searchText = text),
+              onChanged: (text) => setState(() =>_searchText = text),
               decoration: const InputDecoration(
                 labelText: 'Поиск задач', border: OutlineInputBorder(), prefixIcon: Icon(Icons.search),
               ),
@@ -38,7 +41,9 @@ class _FilterTasksScreenState extends State<FilterTasksScreen> {
                   trailing: const Icon(Icons.arrow_forward),
                   onTap: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => TaskDetailScreen(task: filteredTasks[index])),
+                    MaterialPageRoute(
+                      builder: (context) => TaskDetailScreen(task: filteredTasks[index]),
+                    ),
                   ),
                 );
               },

@@ -1,46 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter7s/9/settings.dart';
+import 'package:flutter7s/9/stats.dart';
+import 'package:flutter7s/9/task_list.dart';
 
-import 'InheritedWidget/inherited_widget.dart';
-import 'task_list.dart';
 import 'filter.dart';
-import 'stats.dart';
-import 'settings.dart';
 
 
-void main() {
-  runApp(const TaskApp());
-}
-
-
-class TaskApp extends StatefulWidget {
+class TaskApp extends StatelessWidget {
   const TaskApp({super.key});
 
   @override
-  State<TaskApp> createState() => _TaskAppState();
-}
-
-class _TaskAppState extends State<TaskApp> {
-  final List<String> _tasks = ['Задача 1', 'Задача 2', 'Задача 3'];
-
-  void _addTask(String task) {
-    setState(() {
-      _tasks.add(task);
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return TaskInheritedWidget(
-      tasks: _tasks,
-      addTask: _addTask,
-      child: MaterialApp(
-        title: 'Flutter7s',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
-          useMaterial3: true,
-        ),
-        home: const HomePage(title: 'Flutter7s'),
+    return MaterialApp(
+      title: 'Flutter7s',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+        useMaterial3: true,
       ),
+      home: const HomePage(title: 'Flutter7s'),
     );
   }
 }

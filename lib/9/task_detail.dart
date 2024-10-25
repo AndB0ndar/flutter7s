@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class TaskDetailScreen extends StatelessWidget {
   final String task;
 

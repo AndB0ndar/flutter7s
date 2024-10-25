@@ -17,7 +17,9 @@ import 'package:flutter/material.dart';
 // import '8/app.dart';
 
 import '9/app.dart';
+import 'package:flutter7s/9/Service/TaskService.dart';
 
 void main() {
+  setupLocator();
   runApp(TaskApp());
 }
