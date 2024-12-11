@@ -3,7 +3,10 @@ import 'package:get_it/get_it.dart';
 final getIt = GetIt.instance;
 
 void setupLocator() {
-  getIt.registerSingleton<TaskService>(TaskService());
+  if (!getIt.isRegistered<TaskService>()) {
+    getIt.registerSingleton<TaskService>(TaskService());
+  }
+  // getIt.registerFactory<TaskService>(() => TaskService());
 }
 
 class TaskService {
